@@ -146,8 +146,8 @@ class TeleDart {
   ///  onMessage(entityType: 'bot_command', keyword: 'start').listen((message) =>
   ///    teledart.telegram.sendMessage(message.chat.id, 'hello world!'));
   ///  ```
-  Stream<Message> onMessage({String entityType, String keyword}) =>
-      _event.onMessage(entityType: entityType, keyword: keyword);
+  Stream<Message> onMessage({String entityType, String keyword, bool caseSensitive}) =>
+      _event.onMessage(entityType: entityType, keyword: keyword, caseSensitive: caseSensitive);
 
   /// Listens to edited message events
   Stream<Message> onEditedMessage() => _event.onEditedMessage();

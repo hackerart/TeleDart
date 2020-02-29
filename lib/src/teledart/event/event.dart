@@ -51,7 +51,7 @@ class Event {
   }
 
   /// Listens to message events
-  Stream<Message> onMessage({String entityType, String keyword}) {
+  Stream<Message> onMessage({String entityType, String keyword, bool caseSensitive}) {
     if (entityType == null) {
       // no entityType and keyword
       if (keyword == null) {
@@ -64,7 +64,7 @@ class Event {
             .where((message) =>
                 (message.entities ?? message.caption_entities) == null)
             .where((message) => (message.text ?? message.caption ?? '')
-                .contains(RegExp(keyword)));
+                .contains(RegExp(keyword, caseSensitive: caseSensitive)));
       }
     } else {
       // with entityType but no keyword
@@ -77,7 +77,7 @@ class Event {
           switch (entityType) {
             case '*': // Any entityType
               return (message.text ?? message.caption ?? '')
-                  .contains(RegExp(keyword));
+                  .contains(RegExp(keyword, caseSensitive: caseSensitive));
             case 'mention':
               return message.getEntity(entityType) == '\@${keyword}';
               break;
@@ -112,7 +112,7 @@ class Event {
               break;
             default: // Dynamically listen to message types.
               return (message.getEntity(entityType) ?? '')
-                  .contains(RegExp(keyword));
+                  .contains(RegExp(keyword, caseSensitive: caseSensitive));
               break;
           }
         });
